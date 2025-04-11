@@ -7,7 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Heart, Code } from "lucide-react";
+import { Heart } from "lucide-react";
 
 const Welcome = () => {
   const [email, setEmail] = useState("");
@@ -56,11 +56,10 @@ const Welcome = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center tider-gradient p-4">
       <div className="flex flex-col items-center mb-8">
-        <div className="text-tider-brown flex items-center gap-2 mb-4">
+        <div className="text-tider-brown mb-4">
           <Heart className="h-10 w-10 text-tider-red" />
-          <Code className="h-10 w-10" />
         </div>
-        <h1 className="text-4xl font-bold text-tider-brown mb-2">Tider for Programmers</h1>
+        <h1 className="text-4xl font-bold text-tider-brown mb-2 text-center">Meet Spicy Programmer</h1>
         <p className="text-tider-brown opacity-80 text-center">Find your perfect pair programming partner</p>
       </div>
 

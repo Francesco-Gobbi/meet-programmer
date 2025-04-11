@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/Navigation";
+import ProfileImageUpload from "@/components/ProfileImageUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Github, Linkedin, LogOut, Camera } from "lucide-react";
+import { Github, Linkedin, LogOut, Heart } from "lucide-react";
 
 const Profile = () => {
   const { user, updateProfile, logout } = useAuth();
@@ -19,13 +19,21 @@ const Profile = () => {
     bio: user?.bio || "",
     githubUrl: user?.githubUrl || "",
     linkedinUrl: user?.linkedinUrl || "",
-    programmingLanguages: user?.programmingLanguages?.join(", ") || ""
+    programmingLanguages: user?.programmingLanguages?.join(", ") || "",
+    profileImage: user?.profileImage || ""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
+    });
+  };
+
+  const handleImageChange = (imageUrl: string) => {
+    setFormData({
+      ...formData,
+      profileImage: imageUrl
     });
   };
 
@@ -37,7 +45,8 @@ const Profile = () => {
       bio: formData.bio,
       githubUrl: formData.githubUrl,
       linkedinUrl: formData.linkedinUrl,
-      programmingLanguages: formData.programmingLanguages.split(",").map(lang => lang.trim())
+      programmingLanguages: formData.programmingLanguages.split(",").map(lang => lang.trim()),
+      profileImage: formData.profileImage
     });
     
     toast({
@@ -58,18 +67,31 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Navigation />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+      <div className="absolute top-4 right-4 flex items-center">
+        <Heart className="h-8 w-8 text-tider-red" />
+      </div>
       
-      <div className="container max-w-md mx-auto pt-8 pb-20 px-4 md:px-0 md:ml-24">
+      <div className="container max-w-md mx-auto pt-8 pb-20 px-4">
         <Card className="border-0 shadow-lg">
           <CardHeader className="relative p-0">
             <div className="h-40 bg-gradient-to-r from-tider-red to-tider-orange rounded-t-lg"></div>
             <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
-              <Avatar className="h-32 w-32 border-4 border-white">
-                <AvatarImage src={user?.profileImage || "https://i.pravatar.cc/300"} alt={user?.name} />
-                <AvatarFallback className="text-2xl">{user?.name?.charAt(0) || "U"}</AvatarFallback>
-              </Avatar>
+              {isEditing ? (
+                <ProfileImageUpload 
+                  currentImage={formData.profileImage} 
+                  onImageChange={handleImageChange}
+                  name={formData.name}
+                />
+              ) : (
+                <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-white">
+                  <img 
+                    src={user?.profileImage || "https://i.pravatar.cc/300"} 
+                    alt={user?.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
             </div>
           </CardHeader>
           
@@ -188,6 +210,8 @@ const Profile = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <Navigation />
     </div>
   );
 };

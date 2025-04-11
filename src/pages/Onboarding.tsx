@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Code } from "lucide-react";
+import { Heart, ChevronLeft } from "lucide-react";
 
 const Onboarding = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -13,9 +13,9 @@ const Onboarding = () => {
 
   const steps = [
     {
-      title: "Welcome to Tider for Programmers",
+      title: "Welcome to Meet Spicy Programmer",
       description: "All comments must be written using technical language",
-      image: "/lovable-uploads/eb334984-2bf2-47d6-a527-acc3a301c2ee.png"
+      image: "/lovable-uploads/95899f0b-0fd7-414e-b940-7b2cc6635d2f.png"
     },
     {
       title: "How it works",
@@ -31,6 +31,14 @@ const Onboarding = () => {
     }
   ];
 
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    } else {
+      navigate("/");
+    }
+  };
+
   const handleContinue = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -45,17 +53,24 @@ const Onboarding = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center tider-gradient p-4">
-      <div className="flex flex-col items-center mb-8">
-        <div className="text-tider-brown flex items-center gap-2 mb-4">
-          <Heart className="h-10 w-10 text-tider-red" />
-          <Code className="h-10 w-10" />
-        </div>
-        <h1 className="text-4xl font-bold text-tider-brown mb-2">Tider for Programmers</h1>
+      <div className="absolute top-4 right-4 flex items-center">
+        <Heart className="h-8 w-8 text-tider-red" />
+      </div>
+      
+      <div className="absolute top-4 left-4">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={handlePrevious}
+          className="text-tider-brown"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </Button>
       </div>
 
       <Card className="w-full max-w-md bg-white shadow-xl">
         <CardHeader className="text-center">
-          <h2 className="text-2xl font-semibold text-tider-brown">{steps[currentStep].title}</h2>
+          <h2 className="text-2xl font-semibold text-tider-brown text-center">{steps[currentStep].title}</h2>
         </CardHeader>
         <CardContent className="flex flex-col items-center pt-6">
           {currentStep === 0 && steps[currentStep].image && (
@@ -73,7 +88,7 @@ const Onboarding = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-sm text-gray-600">Swipe Right</span>
+                <span className="text-sm text-gray-600 text-center">Swipe Right</span>
               </div>
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-2">
@@ -81,7 +96,7 @@ const Onboarding = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </div>
-                <span className="text-sm text-gray-600">Swipe Left</span>
+                <span className="text-sm text-gray-600 text-center">Swipe Left</span>
               </div>
             </div>
           )}
@@ -106,7 +121,7 @@ const Onboarding = () => {
               <div className="w-20 h-20 mx-auto bg-tider-red bg-opacity-10 rounded-full flex items-center justify-center mb-4">
                 <Heart className="h-10 w-10 text-tider-red" />
               </div>
-              <p className="text-gray-600 font-mono">// Ready to execute?</p>
+              <p className="text-gray-600 font-mono text-center">// Ready to execute?</p>
             </div>
           )}
           <p className="text-gray-700 text-center">{steps[currentStep].description}</p>
