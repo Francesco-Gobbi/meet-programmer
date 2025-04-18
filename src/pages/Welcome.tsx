@@ -143,7 +143,7 @@ const Welcome = () => {
       
       <Button 
         variant="link" 
-        className="mt-4 text-tider-brown"
+        className="mt-4 text-[#1A1F2C] font-semibold hover:text-[#403E43]"
         onClick={() => navigate("/onboarding")}
       >
         Skip login (demo)

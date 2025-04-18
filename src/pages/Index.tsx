@@ -1,17 +1,17 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Heart } from "lucide-react";
+import { Heart, Apple, Server, Wordpress } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ProfileCard from "@/components/ProfileCard";
 import Navigation from "@/components/Navigation";
-import { getProfiles } from "@/data/mockProfiles";
+import { getProfiles, type Profile } from "@/data/mockProfiles";
 
 const Index = () => {
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const { toast } = useToast();
   
-  const { data: profiles = [] } = useQuery({
+  const { data: profiles = [] } = useQuery<Profile[]>({
     queryKey: ["profiles"],
     queryFn: getProfiles,
   });
@@ -45,6 +45,22 @@ const Index = () => {
     }
   };
 
+  const renderSystemIcons = (profile: Profile) => {
+    return (
+      <div className="flex gap-2 mt-2">
+        {profile.operatingSystems.includes('macOS') && (
+          <Apple className="h-5 w-5 text-gray-600" />
+        )}
+        {profile.hosting.includes('VM') && (
+          <Server className="h-5 w-5 text-gray-600" />
+        )}
+        {profile.hosting.includes('WordPress') && (
+          <Wordpress className="h-5 w-5 text-gray-600" />
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col pb-20">
       <div className="absolute top-4 right-4 flex items-center">
@@ -59,6 +75,7 @@ const Index = () => {
             <ProfileCard 
               profile={currentProfile}
               onSwipe={handleSwipe}
+              renderExtraInfo={renderSystemIcons}
             />
           ) : (
             <div className="flex items-center justify-center h-full">
