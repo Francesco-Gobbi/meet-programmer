@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Github, LinkedinIcon, MessageSquare, X, Check } from "lucide-react";
+import { Profile } from "@/data/mockProfiles";
 
 interface ProfileCardProps {
   profile: {
@@ -17,9 +18,10 @@ interface ProfileCardProps {
     lookingFor?: string;
   };
   onSwipe: (direction: "left" | "right") => void;
+  renderExtraInfo?: (profile: any) => React.ReactNode;
 }
 
-const ProfileCard = ({ profile, onSwipe }: ProfileCardProps) => {
+const ProfileCard = ({ profile, onSwipe, renderExtraInfo }: ProfileCardProps) => {
   const [startX, setStartX] = useState(0);
   const [offsetX, setOffsetX] = useState(0);
   const [swiping, setSwiping] = useState(false);
@@ -130,6 +132,8 @@ const ProfileCard = ({ profile, onSwipe }: ProfileCardProps) => {
                 </a>
               )}
             </div>
+            
+            {renderExtraInfo && renderExtraInfo(profile)}
             
             <div className="flex space-x-4">
               <button 

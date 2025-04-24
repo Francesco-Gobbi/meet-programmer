@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Heart, Apple, Server, Wordpress } from "lucide-react";
+import { Heart, Apple, Server, WordPress } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ProfileCard from "@/components/ProfileCard";
 import Navigation from "@/components/Navigation";
@@ -55,7 +55,7 @@ const Index = () => {
           <Server className="h-5 w-5 text-gray-600" />
         )}
         {profile.hosting.includes('WordPress') && (
-          <Wordpress className="h-5 w-5 text-gray-600" />
+          <WordPress className="h-5 w-5 text-gray-600" />
         )}
       </div>
     );
@@ -73,7 +73,13 @@ const Index = () => {
         <div className="relative w-full h-[70vh] flex-1">
           {profiles.length > 0 && currentProfile ? (
             <ProfileCard 
-              profile={currentProfile}
+              profile={{
+                ...currentProfile,
+                languages: currentProfile.programmingLanguages,
+                age: undefined,
+                linkedinUrl: undefined,
+                lookingFor: undefined
+              }}
               onSwipe={handleSwipe}
               renderExtraInfo={renderSystemIcons}
             />
